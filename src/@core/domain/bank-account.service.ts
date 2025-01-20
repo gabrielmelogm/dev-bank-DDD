@@ -14,6 +14,14 @@ export class BankAccountService {
     return bankAccount
   }
 
+  async findAll() {
+    return await this.bankAccountRepo.findAll()
+  }
+
+  async findOne(id: string) {
+    return await this.bankAccountRepo.findOne(id)
+  }
+
   async transfer(account_number_src: string, account_number_dest: string, amount: number) {
     const bankAccountSrc = await this.bankAccountRepo.findByAccountNumber(account_number_src)
     const bankAccountDest = await this.bankAccountRepo.findByAccountNumber(account_number_dest)

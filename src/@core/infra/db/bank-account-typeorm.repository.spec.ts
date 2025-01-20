@@ -55,6 +55,21 @@ describe('BankAccountTypeOrmRepository Test', () => {
     expect(updatedBankAccount.balance).toBe(50)
   })
 
+  it('should find an account by id', async () => {
+    const bankAccount = new BankAccount({
+      id: '123',
+      account_number: '1111-11',
+      balance: 100
+    })
+
+    await repository.insert(bankAccount)
+    const model = await ormRepo.findOneBy({ id: bankAccount.id })
+
+    expect(model.id).toBe('123')
+    expect(model.balance).toBe(100)
+    expect(model.account_number).toBe('1111-11')
+  })
+
   it('should find one account by account number', async () => {
     const bankAccount = new BankAccount({
       id: '123',

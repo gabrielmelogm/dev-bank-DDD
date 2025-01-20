@@ -17,6 +17,26 @@ export class BankAccountTypeOrmRepository implements BankAccountRepository {
     })
   }
 
+  async findAll(): Promise<BankAccount[]> {
+    const bankAccounts = await this.ormRepo.find()
+    let modelBankAccounts: BankAccount[] = []
+    for (const bankAccount of bankAccounts) {
+      modelBankAccounts.push(new BankAccount(bankAccount))
+    }
+
+    return modelBankAccounts
+  }
+
+  async findOne(id: string): Promise<BankAccount> {
+    const bankAccount = await this.ormRepo.findOneBy({
+      id
+    })
+
+    const modelBankAccount = new BankAccount(bankAccount)
+
+    return modelBankAccount
+  }
+
   async findByAccountNumber(accountNumber: string): Promise<BankAccount> {
     const model = await this.ormRepo.findOneBy({
       account_number: accountNumber
