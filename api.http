@@ -8,7 +8,7 @@ POST http://localhost:3000/bank-accounts
 Content-Type: application/json
 
 {
-    "account_number": "2222-22"
+    "account_number": "3333-33"
 }
 
 ###
