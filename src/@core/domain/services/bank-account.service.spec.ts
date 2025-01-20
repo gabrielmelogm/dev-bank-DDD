@@ -1,6 +1,6 @@
 import { DataSource, Repository } from "typeorm"
-import { BankAccountSchema } from "../../infra/db/bank-account.schema"
-import { BankAccountTypeOrmRepository } from "../../infra/db/bank-account-typeorm.repository"
+import { BankAccountSchema } from "../../infra/db/schemas/bank-account.schema"
+import { BankAccountTypeOrmRepository } from "../../infra/db/implements/bank-account-typeorm.repository"
 import { BankAccountService } from "./bank-account.service"
 import { BankAccount } from "../entities/bank-account"
 import { TransferService } from "./transfer.service"
