@@ -34,4 +34,24 @@ describe('BankAccountTypeOrmRepository Test', () => {
     expect(model.balance).toBe(100)
     expect(model.account_number).toBe('1111-11')
   })
+
+  it('should update a bank', async () => {
+    const currentBankAccount = new BankAccount({
+      id: '123',
+      account_number: '1111-11',
+      balance: 100
+    })
+
+    const updatedBankAccount = new BankAccount({
+      id: currentBankAccount.id,
+      account_number: currentBankAccount.account_number,
+      balance: 50
+    })
+
+    await repository.update(updatedBankAccount)
+
+    expect(currentBankAccount.id).toBe(updatedBankAccount.id)
+    expect(currentBankAccount.account_number).toBe(updatedBankAccount.account_number)
+    expect(updatedBankAccount.balance).toBe(50)
+  })
 })
