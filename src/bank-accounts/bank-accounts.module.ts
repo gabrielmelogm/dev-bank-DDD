@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { BankAccountsService } from './bank-accounts.service';
 import { BankAccountsController } from './bank-accounts.controller';
 import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccountSchema } from '../@core/infra/db/bank-account.schema';
@@ -12,7 +11,6 @@ import { BankAccountRepository } from 'src/@core/domain/bank-account.repository'
   imports: [TypeOrmModule.forFeature([BankAccountSchema])],
   controllers: [BankAccountsController],
   providers: [
-    BankAccountsService,
     {
       provide: BankAccountTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
