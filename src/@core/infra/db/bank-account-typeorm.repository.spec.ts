@@ -55,6 +55,37 @@ describe('BankAccountTypeOrmRepository Test', () => {
     expect(updatedBankAccount.balance).toBe(50)
   })
 
+  it('should find all bank accounts', async () => {
+    let bankAccounts: BankAccount[] = []
+
+    for (let count = 1; count <= 8; count++) {
+      const bankAccount = new BankAccount({
+        id: String(count),
+        account_number: `${count}${count}${count}${count}-${count}${count}`,
+        balance: 0
+      })
+      expect(bankAccount).toHaveProperty('id')
+      bankAccounts.push(bankAccount)
+    }
+
+    expect(bankAccounts).toBeInstanceOf(Array<BankAccount>)
+
+    for (const bankAccount of bankAccounts) {
+      await repository.insert(bankAccount)
+      const model = await repository.findByAccountNumber(bankAccount.account_number)
+      expect(model).toHaveProperty('id')
+      expect(model).toHaveProperty('balance')
+      expect(model).toHaveProperty('account_number')
+    }
+
+    const models = await repository.findAll()
+
+    for (const model of models) {
+      const accountInstance = new BankAccount(model)
+      expect(accountInstance).toBeInstanceOf(BankAccount)
+    }
+  })
+
   it('should find an account by id', async () => {
     const bankAccount = new BankAccount({
       id: '123',
