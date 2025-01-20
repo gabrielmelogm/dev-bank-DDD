@@ -4,8 +4,8 @@ import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccountSchema } from '../@core/infra/db/bank-account.schema';
 import { BankAccountTypeOrmRepository } from '../@core/infra/db/bank-account-typeorm.repository';
 import { DataSource } from 'typeorm';
-import { BankAccountService } from '../@core/domain/bank-account.service';
-import { BankAccountRepository } from 'src/@core/domain/bank-account.repository';
+import { BankAccountService } from '../@core/domain/services/bank-account.service';
+import { BankAccountRepository } from 'src/@core/domain/repositories/bank-account.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([BankAccountSchema])],

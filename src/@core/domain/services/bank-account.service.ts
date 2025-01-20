@@ -1,5 +1,5 @@
-import { BankAccount } from "./bank-account";
-import { BankAccountRepository } from "./bank-account.repository";
+import { BankAccount } from "../entities/bank-account";
+import { BankAccountRepository } from "../repositories/bank-account.repository";
 import { TransferService } from "./transfer.service";
 
 export class BankAccountService {

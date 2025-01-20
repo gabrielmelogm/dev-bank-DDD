@@ -1,4 +1,4 @@
-import { BankAccount } from "./bank-account";
+import { BankAccount } from "../entities/bank-account";
 
 export interface BankAccountRepository {
   insert(bankAccount: BankAccount): Promise<void>

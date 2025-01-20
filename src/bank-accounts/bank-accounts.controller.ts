@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { TransferBankAccountDto } from './dto/transfer-bank-account.dto';
-import { BankAccountService } from '../@core/domain/bank-account.service';
+import { BankAccountService } from '../@core/domain/services/bank-account.service';
 
 @Controller('bank-accounts')
 export class BankAccountsController {
