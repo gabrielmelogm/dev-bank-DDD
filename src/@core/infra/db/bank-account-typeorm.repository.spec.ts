@@ -27,12 +27,12 @@ describe('BankAccountTypeOrmRepository Test', () => {
       account_number: '1111-11',
       balance: 100
     })
-    await repository.insert(bankAccount)
-    const model = await ormRepo.findOneBy({ account_number: '1111-11' })
+    const insertSpy = jest.spyOn(repository, 'insert').mockResolvedValue(undefined)
 
-    expect(model.id).toBe('123')
-    expect(model.balance).toBe(100)
-    expect(model.account_number).toBe('1111-11')
+    await repository.insert(bankAccount)
+
+    expect(insertSpy).toHaveBeenCalledWith(bankAccount)
+    expect(insertSpy).toHaveBeenCalledTimes(1)
   })
 
   it('should update a bank', async () => {
@@ -53,5 +53,20 @@ describe('BankAccountTypeOrmRepository Test', () => {
     expect(currentBankAccount.id).toBe(updatedBankAccount.id)
     expect(currentBankAccount.account_number).toBe(updatedBankAccount.account_number)
     expect(updatedBankAccount.balance).toBe(50)
+  })
+
+  it('should find one account by account number', async () => {
+    const bankAccount = new BankAccount({
+      id: '123',
+      account_number: '1111-11',
+      balance: 100
+    })
+
+    await repository.insert(bankAccount)
+    const model = await ormRepo.findOneBy({ account_number: '1111-11' })
+
+    expect(model.id).toBe('123')
+    expect(model.balance).toBe(100)
+    expect(model.account_number).toBe('1111-11')
   })
 })

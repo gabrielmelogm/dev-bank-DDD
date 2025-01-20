@@ -16,6 +16,7 @@ import { BankAccountService } from '../@core/domain/bank-account.service';
 @Controller('bank-accounts')
 export class BankAccountsController {
   constructor(
+    private readonly bankAccountsService: BankAccountsService,
     private readonly bankAccountService: BankAccountService
   ) { }
 
