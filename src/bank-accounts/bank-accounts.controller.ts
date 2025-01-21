@@ -16,10 +16,10 @@ export class BankAccountsController {
     private readonly bankAccountService: BankAccountService
   ) { }
 
-  @Post()
-  create(@Body() createBankAccountDto: CreateBankAccountDto) {
-    return this.bankAccountService.create(createBankAccountDto.account_number);
-  }
+  // @Post()
+  // create(@Body() createBankAccountDto: CreateBankAccountDto) {
+  //   return this.bankAccountService.create(createBankAccountDto.account_number);
+  // }
 
   @Get()
   findAll() {

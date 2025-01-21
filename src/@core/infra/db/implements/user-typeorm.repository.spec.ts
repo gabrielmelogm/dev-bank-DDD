@@ -2,6 +2,7 @@ import { DataSource, Repository } from "typeorm"
 import { UserSchema } from "../schemas/user.schema"
 import { UserTypeOrmRepository } from "./user-typeorm.repository"
 import { User } from "../../../../@core/domain/entities/user"
+import { BankAccountSchema } from "../schemas/bank-account.schema"
 
 describe('UserTypeOrmRepository Test', () => {
   let dataSource: DataSource
@@ -14,7 +15,7 @@ describe('UserTypeOrmRepository Test', () => {
       database: ':memory:',
       synchronize: true,
       logging: false,
-      entities: [UserSchema]
+      entities: [UserSchema, BankAccountSchema]
     })
     await dataSource.initialize()
     ormRepo = dataSource.getRepository(UserSchema)

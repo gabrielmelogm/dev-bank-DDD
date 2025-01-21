@@ -4,12 +4,19 @@ import { BankAccountTypeOrmRepository } from "../../infra/db/implements/bank-acc
 import { BankAccountService } from "./bank-account.service"
 import { BankAccount } from "../entities/bank-account"
 import { TransferService } from "./transfer.service"
+import { UserSchema } from "../../infra/db/schemas/user.schema"
+import { UserTypeOrmRepository } from "../../infra/db/implements/user-typeorm.repository"
+import { UserService } from "./user.service"
+import { User } from "../entities/user"
 
 describe('BankAccountService Test', () => {
   let dataSource: DataSource
   let ormRepo: Repository<BankAccountSchema>
+  let userRepo: Repository<UserSchema>
   let repository: BankAccountTypeOrmRepository
+  let userRepository: UserTypeOrmRepository
   let bankAccountService: BankAccountService
+  let userService: UserService
   let transferService: TransferService
 
   beforeEach(async () => {
@@ -18,17 +25,24 @@ describe('BankAccountService Test', () => {
       database: ':memory:',
       synchronize: true,
       logging: false,
-      entities: [BankAccountSchema]
+      entities: [BankAccountSchema, UserSchema]
     })
     await dataSource.initialize()
     ormRepo = dataSource.getRepository(BankAccountSchema)
+    userRepo = dataSource.getRepository(UserSchema)
     repository = new BankAccountTypeOrmRepository(ormRepo)
+    userRepository = new UserTypeOrmRepository(userRepo)
     bankAccountService = new BankAccountService(repository)
+    userService = new UserService(userRepository, bankAccountService)
     transferService = new TransferService()
   })
 
   it('should create a new bank account', async () => {
-    await bankAccountService.create('9999-99')
+    const user = await userService.create(new User({
+      name: 'John Doe',
+      email: 'john@mail.com'
+    }))
+    await bankAccountService.create('9999-99', user)
     const model = await ormRepo.findOneBy({ account_number: '9999-99' })
 
     expect(model.balance).toBe(0)
@@ -36,7 +50,11 @@ describe('BankAccountService Test', () => {
   })
 
   it('should be find one bank account by id', async () => {
-    await bankAccountService.create('9999-99')
+    const user = await userService.create(new User({
+      name: 'John Doe',
+      email: 'john@mail.com'
+    }))
+    await bankAccountService.create('9999-99', user)
     const model = await ormRepo.findOneBy({ account_number: '9999-99' })
     const bankAccount = await bankAccountService.findOne(model.id)
 
@@ -46,9 +64,13 @@ describe('BankAccountService Test', () => {
 
   it('should be find all accounts', async () => {
     const idsToCreate: string[] = ['1111-11', '2222-22', '3333-33']
+    const user = await userService.create(new User({
+      name: 'John Doe',
+      email: 'john@mail.com'
+    }))
 
     for (const id of idsToCreate) {
-      await bankAccountService.create(id)
+      await bankAccountService.create(id, user)
     }
 
     const bankAccounts = await bankAccountService.findAll()
@@ -62,8 +84,13 @@ describe('BankAccountService Test', () => {
 
     const amount = 50
 
-    await bankAccountService.create(idSource)
-    await bankAccountService.create(idDest)
+    const user = await userService.create(new User({
+      name: 'John Doe',
+      email: 'john@mail.com'
+    }))
+
+    await bankAccountService.create(idSource, user)
+    await bankAccountService.create(idDest, user)
 
     const bankAccountSrc = await repository.findByAccountNumber(idSource)
     const bankAccountDest = await repository.findByAccountNumber(idDest)

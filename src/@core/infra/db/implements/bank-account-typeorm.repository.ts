@@ -8,7 +8,7 @@ export class BankAccountTypeOrmRepository implements BankAccountRepository {
 
   async insert(bankAccount: BankAccount): Promise<void> {
     const model = this.ormRepo.create(bankAccount)
-    await this.ormRepo.insert(model)
+    await this.ormRepo.save(model)
   }
 
   async update(bankAccount: BankAccount): Promise<void> {

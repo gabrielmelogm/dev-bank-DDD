@@ -28,5 +28,6 @@ import { BankAccountRepository } from 'src/@core/domain/repositories/bank-accoun
       inject: [BankAccountTypeOrmRepository]
     }
   ],
+  exports: [BankAccountService]
 })
 export class BankAccountsModule { }

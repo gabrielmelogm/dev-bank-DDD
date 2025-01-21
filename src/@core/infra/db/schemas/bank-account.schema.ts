@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { UserSchema as User } from './user.schema';
 
 @Entity()
 export class BankAccountSchema {
@@ -10,4 +11,7 @@ export class BankAccountSchema {
 
   @Column({ length: 255 })
   account_number: string;
+
+  @OneToOne(() => User, (user) => user.bankAccount)
+  owner: User
 }

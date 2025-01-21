@@ -6,9 +6,11 @@ import { UserTypeOrmRepository } from "../@core/infra/db/implements/user-typeorm
 import { DataSource } from "typeorm";
 import { UserService } from "../@core/domain/services/user.service";
 import { UserRepository } from "../@core/domain/repositories/user.repository";
+import { BankAccountService } from "../@core/domain/services/bank-account.service";
+import { BankAccountsModule } from "../bank-accounts/bank-accounts.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserSchema])],
+  imports: [TypeOrmModule.forFeature([UserSchema]), BankAccountsModule],
   controllers: [UsersController],
   providers: [
     {
@@ -22,10 +24,10 @@ import { UserRepository } from "../@core/domain/repositories/user.repository";
     },
     {
       provide: UserService,
-      useFactory: (repo: UserRepository) => {
-        return new UserService(repo)
+      useFactory: (repo: UserRepository, bankAccountService: BankAccountService) => {
+        return new UserService(repo, bankAccountService)
       },
-      inject: [UserTypeOrmRepository]
+      inject: [UserTypeOrmRepository, BankAccountService]
     }
   ]
 })

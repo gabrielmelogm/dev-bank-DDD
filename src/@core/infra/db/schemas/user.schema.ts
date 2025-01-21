@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BankAccountSchema as BankAccount } from "./bank-account.schema";
 
 @Entity()
 export class UserSchema {
@@ -10,4 +11,8 @@ export class UserSchema {
 
   @Column({ type: 'varchar' })
   email: string;
+
+  @OneToOne(() => BankAccount, (bankAccount) => bankAccount.owner)
+  @JoinColumn()
+  bankAccount: BankAccount
 }
