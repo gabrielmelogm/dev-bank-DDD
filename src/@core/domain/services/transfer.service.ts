@@ -1,7 +1,7 @@
 import { BankAccount } from "../entities/bank-account";
 
 export class TransferService {
-  async transfer(
+  transfer(
     bankAccountSrc: BankAccount,
     bankAccountDest: BankAccount,
     amount: number

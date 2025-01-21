@@ -22,6 +22,9 @@ export class BankAccount {
   }
 
   debit(amount: number): void {
+    if (amount > this.balance) {
+      throw new Error('Insufficient balance')
+    }
     this.balance -= amount
   }
 

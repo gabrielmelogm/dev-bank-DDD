@@ -95,12 +95,15 @@ describe('BankAccountService Test', () => {
     const bankAccountSrc = await repository.findByAccountNumber(idSource)
     const bankAccountDest = await repository.findByAccountNumber(idDest)
 
-    expect(bankAccountSrc.balance).toBe(0)
+    bankAccountSrc.balance = 100
+    bankAccountDest.balance = 0
+
+    expect(bankAccountSrc.balance).toBe(100)
     expect(bankAccountDest.balance).toBe(0)
 
     transferService.transfer(bankAccountSrc, bankAccountDest, amount)
 
-    expect(bankAccountSrc.balance).toBe(-50)
+    expect(bankAccountSrc.balance).toBe(50)
     expect(bankAccountDest.balance).toBe(50)
   })
 

@@ -4,7 +4,8 @@ import {
   Post,
   Body,
   Param,
-  HttpCode,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { TransferBankAccountDto } from './dto/transfer-bank-account.dto';
 import { BankAccountService } from '../@core/domain/services/bank-account.service';
@@ -16,22 +17,25 @@ export class BankAccountsController {
   ) { }
 
   @Get()
-  findAll() {
-    return this.bankAccountService.findAll();
+  async findAll() {
+    return await this.bankAccountService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bankAccountService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.bankAccountService.findOne(id);
   }
 
-  @HttpCode(204)
   @Post('transfer')
-  transfer(@Body() transferDto: TransferBankAccountDto) {
-    return this.bankAccountService.transfer(
-      transferDto.from,
-      transferDto.to,
-      transferDto.amount,
-    );
+  async transfer(@Body() transferDto: TransferBankAccountDto) {
+    try {
+      return await this.bankAccountService.transfer(
+        transferDto.from,
+        transferDto.to,
+        transferDto.amount,
+      );
+    } catch (error) {
+      return new HttpException(error, HttpStatus.BAD_REQUEST)
+    }
   }
 }

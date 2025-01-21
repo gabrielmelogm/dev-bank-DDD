@@ -22,6 +22,16 @@ describe('BankAccount Unit Tests', () => {
     expect(bankAccount.balance).toBe(50)
   })
 
+  it('should not be able debit an account if amount > balance', () => {
+    const bankAccount = new BankAccount({
+      id: '123',
+      account_number: '12345',
+      balance: 100
+    })
+
+    expect(() => bankAccount.debit(120)).toThrowError('Insufficient balance')
+  })
+
   it('should credit an account', () => {
     const bankAccount = new BankAccount({
       id: '123',

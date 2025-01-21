@@ -1,34 +1,15 @@
 GET http://localhost:3000/bank-accounts
 
 ###
-GET http://localhost:3000/bank-accounts/13fa96a8-90c8-4690-a017-6001b6a9686a
-
-###
-POST http://localhost:3000/bank-accounts
-Content-Type: application/json
-
-{
-    "account_number": "3333-33"
-}
-
-###
-PATCH http://localhost:3000/bank-accounts/123
-Content-Type: application/json
-
-{
-    "account_number": 1234
-}
-
-###
-DELETE http://localhost:3000/bank-accounts/123
+GET http://localhost:3000/bank-accounts/ef313639-1624-4577-ab16-3f8b86ab70a5
 
 ###
 POST http://localhost:3000/bank-accounts/transfer
 Content-Type: application/json
 
 {
-    "from": "7082-98",
-    "to": "3834-72",
+    "from": "8417-65",
+    "to": "3390-33",
     "amount": 50
 }
 
