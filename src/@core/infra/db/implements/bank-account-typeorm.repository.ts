@@ -1,6 +1,6 @@
-import { BankAccount } from "src/@core/domain/bank-account";
-import { BankAccountRepository } from "src/@core/domain/bank-account.repository";
-import { BankAccountSchema } from "src/@core/infra/db/bank-account.schema";
+import { BankAccount } from "src/@core/domain/entities/bank-account";
+import { BankAccountRepository } from "src/@core/domain/repositories/bank-account.repository";
+import { BankAccountSchema } from "src/@core/infra/db/schemas/bank-account.schema";
 import { Repository } from "typeorm";
 
 export class BankAccountTypeOrmRepository implements BankAccountRepository {
@@ -8,7 +8,7 @@ export class BankAccountTypeOrmRepository implements BankAccountRepository {
 
   async insert(bankAccount: BankAccount): Promise<void> {
     const model = this.ormRepo.create(bankAccount)
-    await this.ormRepo.insert(model)
+    await this.ormRepo.save(model)
   }
 
   async update(bankAccount: BankAccount): Promise<void> {
@@ -18,7 +18,11 @@ export class BankAccountTypeOrmRepository implements BankAccountRepository {
   }
 
   async findAll(): Promise<BankAccount[]> {
-    const bankAccounts = await this.ormRepo.find()
+    const bankAccounts = await this.ormRepo.find({
+      relations: {
+        owner: true
+      }
+    })
     let modelBankAccounts: BankAccount[] = []
     for (const bankAccount of bankAccounts) {
       modelBankAccounts.push(new BankAccount(bankAccount))
@@ -28,8 +32,13 @@ export class BankAccountTypeOrmRepository implements BankAccountRepository {
   }
 
   async findOne(id: string): Promise<BankAccount> {
-    const bankAccount = await this.ormRepo.findOneBy({
-      id
+    const bankAccount = await this.ormRepo.findOne({
+      where: {
+        id
+      },
+      relations: {
+        owner: true
+      }
     })
 
     const modelBankAccount = new BankAccount(bankAccount)

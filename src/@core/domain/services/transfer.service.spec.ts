@@ -1,4 +1,4 @@
-import { BankAccount } from "./bank-account"
+import { BankAccount } from "../entities/bank-account"
 import { TransferService } from "./transfer.service"
 
 describe('TransferService Test', () => {
