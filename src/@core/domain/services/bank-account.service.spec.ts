@@ -5,7 +5,7 @@ import { BankAccountService } from "./bank-account.service"
 import { BankAccount } from "../entities/bank-account"
 import { TransferService } from "./transfer.service"
 
-describe('BankAccountTypeOrmRepository Test', () => {
+describe('BankAccountService Test', () => {
   let dataSource: DataSource
   let ormRepo: Repository<BankAccountSchema>
   let repository: BankAccountTypeOrmRepository

@@ -31,3 +31,12 @@ Content-Type: application/json
     "to": "2222-22",
     "amount": 100
 }
+
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john@mail.com"
+}
