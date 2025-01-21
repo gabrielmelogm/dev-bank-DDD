@@ -6,7 +6,6 @@ import {
   Param,
   HttpCode,
 } from '@nestjs/common';
-import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 import { TransferBankAccountDto } from './dto/transfer-bank-account.dto';
 import { BankAccountService } from '../@core/domain/services/bank-account.service';
 
@@ -15,11 +14,6 @@ export class BankAccountsController {
   constructor(
     private readonly bankAccountService: BankAccountService
   ) { }
-
-  // @Post()
-  // create(@Body() createBankAccountDto: CreateBankAccountDto) {
-  //   return this.bankAccountService.create(createBankAccountDto.account_number);
-  // }
 
   @Get()
   findAll() {
