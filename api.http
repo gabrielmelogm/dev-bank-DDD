@@ -27,9 +27,9 @@ POST http://localhost:3000/bank-accounts/transfer
 Content-Type: application/json
 
 {
-    "from": "1111-11",
-    "to": "2222-22",
-    "amount": 100
+    "from": "7082-98",
+    "to": "3834-72",
+    "amount": 50
 }
 
 ###

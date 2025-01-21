@@ -103,4 +103,15 @@ describe('BankAccountService Test', () => {
     expect(bankAccountSrc.balance).toBe(-50)
     expect(bankAccountDest.balance).toBe(50)
   })
+
+  it('should generate an valid account number', () => {
+    const accountNumber = bankAccountService.generateAccountNumber()
+    expect(accountNumber.length).toBe(7)
+    expect(accountNumber.includes('-')).toBe(true)
+
+    const numbers = accountNumber.split('-')
+
+    expect(numbers[0].length).toBe(4)
+    expect(numbers[1].length).toBe(2)
+  })
 })

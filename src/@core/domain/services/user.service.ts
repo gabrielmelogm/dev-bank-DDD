@@ -16,7 +16,7 @@ export class UserService {
 
     const createdUser = await this.userRepo.create(newUser)
 
-    await this.bankAccountService.create('7984-90', createdUser)
+    await this.bankAccountService.create(this.bankAccountService.generateAccountNumber(), createdUser)
 
     return createdUser
   }

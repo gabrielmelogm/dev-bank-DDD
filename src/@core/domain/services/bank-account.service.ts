@@ -34,4 +34,23 @@ export class BankAccountService {
     await this.bankAccountRepo.update(bankAccountSrc)
     await this.bankAccountRepo.update(bankAccountDest)
   }
+
+  generateAccountNumber(): string {
+    const numbers = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10))
+
+    let firstVerifyNumber = numbers[0] + numbers[3]
+    let secondVerifyNumber = numbers[1] + numbers[2]
+
+    if (String(firstVerifyNumber).length > 1) {
+      let newVerifyNumber = String(firstVerifyNumber).split('')
+      firstVerifyNumber = Number.parseInt(newVerifyNumber[0]) + Number.parseInt(newVerifyNumber[1])
+    }
+
+    if (String(secondVerifyNumber).length > 1) {
+      let newVerifyNumber = String(secondVerifyNumber).split('')
+      secondVerifyNumber = Number.parseInt(newVerifyNumber[0]) + Number.parseInt(newVerifyNumber[1])
+    }
+
+    return `${numbers.join('')}-${firstVerifyNumber}${secondVerifyNumber}`
+  }
 }
