@@ -1,15 +1,15 @@
 GET http://localhost:3000/bank-accounts
 
 ###
-GET http://localhost:3000/bank-accounts/ef313639-1624-4577-ab16-3f8b86ab70a5
+GET http://localhost:3000/bank-accounts/46d9680a-e9b7-46c1-ab90-083fdca42ce1
 
 ###
 POST http://localhost:3000/bank-accounts/transfer
 Content-Type: application/json
 
 {
-    "from": "8417-65",
-    "to": "3390-33",
+    "from": "1942-34",
+    "to": "6027-42",
     "amount": 50
 }
 

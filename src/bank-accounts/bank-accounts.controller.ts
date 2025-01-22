@@ -8,26 +8,32 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { TransferBankAccountDto } from './dto/transfer-bank-account.dto';
-import { BankAccountService } from '../@core/domain/services/bank-account.service';
+import { FindAllBankAccounts } from 'src/@core/domain/use-cases/bank-account/find-all-bank-accounts.usecase';
+import { FindOneBankAccountById } from 'src/@core/domain/use-cases/bank-account/find-one-bank-account-by-id.usecase';
+import { TransferEntryBankAccountsUseCase } from 'src/@core/domain/use-cases/bank-account/transfer-entry-bank-accounts.usecase';
 
 @Controller('bank-accounts')
 export class BankAccountsController {
-  constructor(private readonly bankAccountService: BankAccountService) {}
+  constructor(
+    private readonly findAllBankAccounts: FindAllBankAccounts,
+    private readonly findOneBankAccountById: FindOneBankAccountById,
+    private readonly transferEntryBankAccountsUseCase: TransferEntryBankAccountsUseCase,
+  ) {}
 
   @Get()
   async findAll() {
-    return await this.bankAccountService.findAll();
+    return await this.findAllBankAccounts.handle();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.bankAccountService.findOne(id);
+    return await this.findOneBankAccountById.handle(id);
   }
 
   @Post('transfer')
   async transfer(@Body() transferDto: TransferBankAccountDto) {
     try {
-      return await this.bankAccountService.transfer(
+      return await this.transferEntryBankAccountsUseCase.handle(
         transferDto.from,
         transferDto.to,
         transferDto.amount,
