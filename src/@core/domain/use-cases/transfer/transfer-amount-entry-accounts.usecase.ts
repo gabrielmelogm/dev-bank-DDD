@@ -1,7 +1,7 @@
-import { BankAccount } from '../entities/bank-account';
+import { BankAccount } from '../../entities/bank-account';
 
-export class TransferService {
-  transfer(
+export class TransferAmountEntryAccountsUseCase {
+  handle(
     bankAccountSrc: BankAccount,
     bankAccountDest: BankAccount,
     amount: number,

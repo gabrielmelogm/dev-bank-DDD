@@ -4,8 +4,13 @@ import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccountSchema } from '../@core/infra/db/schemas/bank-account.schema';
 import { BankAccountTypeOrmRepository } from '../@core/infra/db/implements/bank-account-typeorm.repository';
 import { DataSource } from 'typeorm';
-import { BankAccountService } from '../@core/domain/services/bank-account.service';
 import { BankAccountRepository } from 'src/@core/domain/repositories/bank-account.repository';
+import { FindAllBankAccounts } from 'src/@core/domain/use-cases/bank-account/find-all-bank-accounts.usecase';
+import { FindOneBankAccountById } from 'src/@core/domain/use-cases/bank-account/find-one-bank-account-by-id.usecase';
+import { TransferEntryBankAccountsUseCase } from 'src/@core/domain/use-cases/bank-account/transfer-entry-bank-accounts.usecase';
+import { TransferAmountEntryAccountsUseCase } from 'src/@core/domain/use-cases/transfer/transfer-amount-entry-accounts.usecase';
+import { FindBankAccountByAccountNumberUseCase } from 'src/@core/domain/use-cases/bank-account/find-bank-account-by-account-number.usecase';
+import { UpdateBalanceBankAccountUseCase } from 'src/@core/domain/use-cases/bank-account/update-balance-bank-account.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([BankAccountSchema])],
@@ -21,13 +26,37 @@ import { BankAccountRepository } from 'src/@core/domain/repositories/bank-accoun
       inject: [getDataSourceToken()],
     },
     {
-      provide: BankAccountService,
+      provide: FindAllBankAccounts,
       useFactory: (repo: BankAccountRepository) => {
-        return new BankAccountService(repo);
+        return new FindAllBankAccounts(repo);
+      },
+      inject: [BankAccountTypeOrmRepository],
+    },
+    {
+      provide: FindOneBankAccountById,
+      useFactory: (repo: BankAccountRepository) => {
+        return new FindOneBankAccountById(repo);
+      },
+      inject: [BankAccountTypeOrmRepository],
+    },
+    {
+      provide: TransferAmountEntryAccountsUseCase,
+      useFactory: () => new TransferAmountEntryAccountsUseCase(),
+    },
+    {
+      provide: TransferEntryBankAccountsUseCase,
+      useFactory: (repo: BankAccountRepository) => {
+        return new TransferEntryBankAccountsUseCase(
+          new TransferAmountEntryAccountsUseCase(),
+          new FindBankAccountByAccountNumberUseCase(repo),
+          new UpdateBalanceBankAccountUseCase(
+            repo,
+            new FindBankAccountByAccountNumberUseCase(repo),
+          ),
+        );
       },
       inject: [BankAccountTypeOrmRepository],
     },
   ],
-  exports: [BankAccountService],
 })
 export class BankAccountsModule {}
