@@ -1,5 +1,11 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { BankAccountSchema as BankAccount } from "./bank-account.schema";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { BankAccountSchema as BankAccount } from './bank-account.schema';
 
 @Entity()
 export class UserSchema {
@@ -14,5 +20,5 @@ export class UserSchema {
 
   @OneToOne(() => BankAccount, (bankAccount) => bankAccount.owner)
   @JoinColumn()
-  bankAccount: BankAccount
+  bankAccount: BankAccount;
 }

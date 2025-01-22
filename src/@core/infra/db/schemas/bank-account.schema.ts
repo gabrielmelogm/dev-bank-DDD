@@ -13,5 +13,5 @@ export class BankAccountSchema {
   account_number: string;
 
   @OneToOne(() => User, (user) => user.bankAccount)
-  owner: User
+  owner: User;
 }

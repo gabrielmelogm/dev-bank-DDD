@@ -12,9 +12,7 @@ import { BankAccountService } from '../@core/domain/services/bank-account.servic
 
 @Controller('bank-accounts')
 export class BankAccountsController {
-  constructor(
-    private readonly bankAccountService: BankAccountService
-  ) { }
+  constructor(private readonly bankAccountService: BankAccountService) {}
 
   @Get()
   async findAll() {
@@ -35,7 +33,7 @@ export class BankAccountsController {
         transferDto.amount,
       );
     } catch (error) {
-      return new HttpException(error, HttpStatus.BAD_REQUEST)
+      return new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 }

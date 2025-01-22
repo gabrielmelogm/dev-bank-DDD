@@ -15,19 +15,19 @@ import { BankAccountRepository } from 'src/@core/domain/repositories/bank-accoun
       provide: BankAccountTypeOrmRepository,
       useFactory: (dataSource: DataSource) => {
         return new BankAccountTypeOrmRepository(
-          dataSource.getRepository(BankAccountSchema)
-        )
+          dataSource.getRepository(BankAccountSchema),
+        );
       },
       inject: [getDataSourceToken()],
     },
     {
       provide: BankAccountService,
       useFactory: (repo: BankAccountRepository) => {
-        return new BankAccountService(repo)
+        return new BankAccountService(repo);
       },
-      inject: [BankAccountTypeOrmRepository]
-    }
+      inject: [BankAccountTypeOrmRepository],
+    },
   ],
-  exports: [BankAccountService]
+  exports: [BankAccountService],
 })
-export class BankAccountsModule { }
+export class BankAccountsModule {}

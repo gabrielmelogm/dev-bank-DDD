@@ -14,8 +14,7 @@ import { UsersModule } from './users/users.module';
       entities: [BankAccountSchema, UserSchema],
     }),
     BankAccountsModule,
-    UsersModule
+    UsersModule,
   ],
 })
-export class AppModule { }
-
+export class AppModule {}

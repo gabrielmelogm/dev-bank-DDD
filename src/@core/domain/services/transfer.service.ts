@@ -1,12 +1,12 @@
-import { BankAccount } from "../entities/bank-account";
+import { BankAccount } from '../entities/bank-account';
 
 export class TransferService {
   transfer(
     bankAccountSrc: BankAccount,
     bankAccountDest: BankAccount,
-    amount: number
+    amount: number,
   ) {
-    bankAccountSrc.debit(amount)
-    bankAccountDest.credit(amount)
+    bankAccountSrc.debit(amount);
+    bankAccountDest.credit(amount);
   }
 }
