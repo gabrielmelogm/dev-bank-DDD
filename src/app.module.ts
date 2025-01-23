@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BankAccountSchema } from './@core/infra/db/schemas/bank-account.schema';
 import { UserSchema } from './@core/infra/db/schemas/user.schema';
 import { UsersModule } from './users/users.module';
+import { HealthCheckController } from './health-check.controller';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -16,5 +17,6 @@ import { UsersModule } from './users/users.module';
     BankAccountsModule,
     UsersModule,
   ],
+  controllers: [HealthCheckController],
 })
 export class AppModule {}
