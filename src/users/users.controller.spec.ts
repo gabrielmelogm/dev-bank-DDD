@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { CreateUserWithBankAccountUseCase } from 'src/@core/domain/use-cases/user/create-user-with-bank-account.usecase';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Exception } from 'src/@core/domain/utils/error-exceptions.utils';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -65,7 +66,7 @@ describe('UsersController', () => {
         name: 'John Doe',
         email: 'john@example.com',
       };
-      const error = new Error('Failed to create user');
+      const error = new Error(Exception.FAILED_TO_CREATE_USER);
       jest
         .spyOn(createUserWithBankAccountUseCase, 'handle')
         .mockRejectedValue(error);

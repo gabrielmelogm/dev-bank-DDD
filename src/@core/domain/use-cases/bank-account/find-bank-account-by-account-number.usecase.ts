@@ -1,5 +1,6 @@
 import { BankAccount } from '../../entities/bank-account';
 import { BankAccountRepository } from '../../repositories/bank-account.repository';
+import { Exception } from '../../utils/error-exceptions.utils';
 
 export class FindBankAccountByAccountNumberUseCase {
   constructor(private readonly bankAccountRepo: BankAccountRepository) {}
@@ -11,7 +12,7 @@ export class FindBankAccountByAccountNumberUseCase {
       );
       return bankAccount;
     } catch (error) {
-      throw new Error('Bank account not found');
+      throw new Error(Exception.BANK_ACCOUNT_NOT_FOUND);
     }
   }
 }

@@ -1,4 +1,5 @@
 import { BankAccountRepository } from '../../repositories/bank-account.repository';
+import { Exception } from '../../utils/error-exceptions.utils';
 
 export class FindOneBankAccountById {
   constructor(private readonly bankAccountRepo: BankAccountRepository) {}
@@ -8,7 +9,7 @@ export class FindOneBankAccountById {
       const bankAccount = await this.bankAccountRepo.findOne(id);
       return bankAccount;
     } catch (error) {
-      throw new Error('Bank account not found');
+      throw new Error(Exception.BANK_ACCOUNT_NOT_FOUND);
     }
   }
 }

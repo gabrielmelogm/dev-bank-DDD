@@ -4,6 +4,7 @@ import { FindAllBankAccounts } from 'src/@core/domain/use-cases/bank-account/fin
 import { FindOneBankAccountById } from 'src/@core/domain/use-cases/bank-account/find-one-bank-account-by-id.usecase';
 import { TransferEntryBankAccountsUseCase } from 'src/@core/domain/use-cases/bank-account/transfer-entry-bank-accounts.usecase';
 import { HttpException } from '@nestjs/common';
+import { Exception } from 'src/@core/domain/utils/error-exceptions.utils';
 
 describe('BankAccountsController Test', () => {
   let controller: BankAccountsController;
@@ -98,10 +99,10 @@ describe('BankAccountsController Test', () => {
     it('should throw error when bank account is not found', async () => {
       jest
         .spyOn(findOneBankAccountById, 'handle')
-        .mockRejectedValue(new Error('Bank account not found'));
+        .mockRejectedValue(new Error(Exception.BANK_ACCOUNT_NOT_FOUND));
 
       await expect(controller.findOne('1')).rejects.toThrow(
-        'Bank account not found',
+        Exception.BANK_ACCOUNT_NOT_FOUND,
       );
     });
   });

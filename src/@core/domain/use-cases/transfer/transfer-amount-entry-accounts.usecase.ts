@@ -1,4 +1,5 @@
 import { BankAccount } from '../../entities/bank-account';
+import { Exception } from '../../utils/error-exceptions.utils';
 
 export class TransferAmountEntryAccountsUseCase {
   handle(
@@ -7,7 +8,7 @@ export class TransferAmountEntryAccountsUseCase {
     amount: number,
   ) {
     if (amount <= 0) {
-      throw new Error('Amount must be greater than zero');
+      throw new Error(Exception.AMOUNT_MUST_BE_GREATER_THAN_ZERO);
     }
 
     bankAccountSrc.debit(amount);

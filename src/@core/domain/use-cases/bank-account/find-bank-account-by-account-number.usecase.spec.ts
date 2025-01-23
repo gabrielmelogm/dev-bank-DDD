@@ -6,6 +6,7 @@ import { BankAccount } from '../../entities/bank-account';
 import { User } from '../../entities/user';
 import { UserSchema } from 'src/@core/infra/db/schemas/user.schema';
 import { inMemoryTypeOrmConnectionConfig } from 'src/@core/infra/db/config/providers/inMemory-typeorm-connection.config';
+import { Exception } from '../../utils/error-exceptions.utils';
 
 describe('FindBankAccountByAccountNumberUseCase Test', () => {
   let dataSource: DataSource;
@@ -47,6 +48,6 @@ describe('FindBankAccountByAccountNumberUseCase Test', () => {
 
     await expect(
       findBankAccountByAccountNumberUseCase.handle(nonExistentAccountNumber),
-    ).rejects.toThrow('Bank account not found');
+    ).rejects.toThrow(Exception.BANK_ACCOUNT_NOT_FOUND);
   });
 });

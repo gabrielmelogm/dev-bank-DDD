@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { User } from './user';
+import { Exception } from '../utils/error-exceptions.utils';
 
 interface BankAccountProps {
   id?: string;
@@ -23,7 +24,7 @@ export class BankAccount {
 
   debit(amount: number): void {
     if (amount > this.balance) {
-      throw new Error('Insufficient balance');
+      throw new Error(Exception.INSUFFICIENT_BALANCE);
     }
     this.balance -= amount;
   }
