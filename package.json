@@ -1,8 +1,8 @@
 {
   "name": "iniciando-nestjs-9",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "Reply bank basic logic to study DDD + Clean Architecture",
+  "author": "Gabriel Melo",
   "engines": {
     "node": ">=20.11.1 <= 22.x"
   },
