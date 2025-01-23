@@ -2,10 +2,10 @@ import { BankAccountTypeOrmRepository } from 'src/@core/infra/db/implements/bank
 import { BankAccountSchema } from 'src/@core/infra/db/schemas/bank-account.schema';
 import { DataSource, Repository } from 'typeorm';
 import { FindBankAccountByAccountNumberUseCase } from './find-bank-account-by-account-number.usecase';
-import { UserSchema } from 'src/@core/infra/db/schemas/user.schema';
 import { User } from '../../entities/user';
 import { BankAccount } from '../../entities/bank-account';
 import { UpdateBalanceBankAccountUseCase } from './update-balance-bank-account.usecase';
+import { inMemoryTypeOrmConnectionConfig } from 'src/@core/infra/db/config/providers/inMemory-typeorm-connection.config';
 
 describe('UpdateBalanceBankAccountUseCase Test', () => {
   let dataSource: DataSource;
@@ -15,13 +15,7 @@ describe('UpdateBalanceBankAccountUseCase Test', () => {
   let updateBalanceBankAccountUseCase: UpdateBalanceBankAccountUseCase;
 
   beforeEach(async () => {
-    dataSource = new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      synchronize: true,
-      logging: false,
-      entities: [BankAccountSchema, UserSchema],
-    });
+    dataSource = new DataSource(inMemoryTypeOrmConnectionConfig);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(BankAccountSchema);
     repository = new BankAccountTypeOrmRepository(ormRepo);

@@ -5,6 +5,7 @@ import { FindBankAccountByAccountNumberUseCase } from './find-bank-account-by-ac
 import { BankAccount } from '../../entities/bank-account';
 import { User } from '../../entities/user';
 import { UserSchema } from 'src/@core/infra/db/schemas/user.schema';
+import { inMemoryTypeOrmConnectionConfig } from 'src/@core/infra/db/config/providers/inMemory-typeorm-connection.config';
 
 describe('FindBankAccountByAccountNumberUseCase Test', () => {
   let dataSource: DataSource;
@@ -13,13 +14,7 @@ describe('FindBankAccountByAccountNumberUseCase Test', () => {
   let findBankAccountByAccountNumberUseCase: FindBankAccountByAccountNumberUseCase;
 
   beforeEach(async () => {
-    dataSource = new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      synchronize: true,
-      logging: false,
-      entities: [BankAccountSchema, UserSchema],
-    });
+    dataSource = new DataSource(inMemoryTypeOrmConnectionConfig);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(BankAccountSchema);
     repository = new BankAccountTypeOrmRepository(ormRepo);

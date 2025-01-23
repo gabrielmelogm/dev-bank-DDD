@@ -2,7 +2,7 @@ import { DataSource, Repository } from 'typeorm';
 import { BankAccountTypeOrmRepository } from './bank-account-typeorm.repository';
 import { BankAccountSchema } from '../schemas/bank-account.schema';
 import { BankAccount } from '../../../domain/entities/bank-account';
-import { UserSchema } from '../schemas/user.schema';
+import { inMemoryTypeOrmConnectionConfig } from '../config/providers/inMemory-typeorm-connection.config';
 
 describe('BankAccountTypeOrmRepository Test', () => {
   let dataSource: DataSource;
@@ -10,13 +10,7 @@ describe('BankAccountTypeOrmRepository Test', () => {
   let repository: BankAccountTypeOrmRepository;
 
   beforeEach(async () => {
-    dataSource = new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      synchronize: true,
-      logging: false,
-      entities: [BankAccountSchema, UserSchema],
-    });
+    dataSource = new DataSource(inMemoryTypeOrmConnectionConfig);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(BankAccountSchema);
     repository = new BankAccountTypeOrmRepository(ormRepo);

@@ -8,6 +8,7 @@ import { BankAccountTypeOrmRepository } from '../../../infra/db/implements/bank-
 import { GenerateBankAccountNumberUseCase } from '../bank-account/generate-bank-account-number.usecase';
 import { User } from '../../entities/user';
 import { BankAccount } from '../../entities/bank-account';
+import { inMemoryTypeOrmConnectionConfig } from 'src/@core/infra/db/config/providers/inMemory-typeorm-connection.config';
 
 describe('CreateUserWithBankAccountUseCase Test', () => {
   let dataSource: DataSource;
@@ -25,13 +26,7 @@ describe('CreateUserWithBankAccountUseCase Test', () => {
   let createUserWithBankAccountUseCase: CreateUserWithBankAccountUseCase;
 
   beforeEach(async () => {
-    dataSource = new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      synchronize: true,
-      logging: false,
-      entities: [UserSchema, BankAccountSchema],
-    });
+    dataSource = new DataSource(inMemoryTypeOrmConnectionConfig);
     await dataSource.initialize();
 
     ormRepo = dataSource.getRepository(UserSchema);

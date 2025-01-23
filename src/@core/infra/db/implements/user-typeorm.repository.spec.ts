@@ -2,7 +2,7 @@ import { DataSource, Repository } from 'typeorm';
 import { UserSchema } from '../schemas/user.schema';
 import { UserTypeOrmRepository } from './user-typeorm.repository';
 import { User } from '../../../../@core/domain/entities/user';
-import { BankAccountSchema } from '../schemas/bank-account.schema';
+import { inMemoryTypeOrmConnectionConfig } from '../config/providers/inMemory-typeorm-connection.config';
 
 describe('UserTypeOrmRepository Test', () => {
   let dataSource: DataSource;
@@ -10,13 +10,7 @@ describe('UserTypeOrmRepository Test', () => {
   let repository: UserTypeOrmRepository;
 
   beforeEach(async () => {
-    dataSource = new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      synchronize: true,
-      logging: false,
-      entities: [UserSchema, BankAccountSchema],
-    });
+    dataSource = new DataSource(inMemoryTypeOrmConnectionConfig);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(UserSchema);
     repository = new UserTypeOrmRepository(ormRepo);

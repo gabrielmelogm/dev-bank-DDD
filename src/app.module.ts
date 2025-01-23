@@ -1,19 +1,13 @@
 import { Module } from '@nestjs/common';
 import { BankAccountsModule } from './bank-accounts/bank-accounts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BankAccountSchema } from './@core/infra/db/schemas/bank-account.schema';
-import { UserSchema } from './@core/infra/db/schemas/user.schema';
 import { UsersModule } from './users/users.module';
 import { HealthCheckController } from './health-check.controller';
+import { sqliteTypeOrmConnectionConfig } from './@core/infra/db/config/providers/sqlite-typeorm-connection.config';
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: __dirname + '/db.sqlite',
-      synchronize: true,
-      logging: false,
-      entities: [BankAccountSchema, UserSchema],
-    }),
+    TypeOrmModule.forRoot(sqliteTypeOrmConnectionConfig),
     BankAccountsModule,
     UsersModule,
   ],
