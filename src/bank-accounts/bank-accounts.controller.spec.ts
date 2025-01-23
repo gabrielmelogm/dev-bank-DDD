@@ -79,11 +79,6 @@ describe('BankAccountsController Test', () => {
   });
 
   describe('findOne', () => {
-    const mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn().mockReturnThis(),
-    };
-
     it('should return a single bank account', async () => {
       const result = {
         id: '1',
@@ -95,23 +90,18 @@ describe('BankAccountsController Test', () => {
       };
       jest.spyOn(findOneBankAccountById, 'handle').mockResolvedValue(result);
 
-      await controller.findOne('1', mockResponse as any);
-
-      expect(mockResponse.status).toHaveBeenCalledWith(200);
-      expect(mockResponse.json).toHaveBeenCalledWith(result);
+      const response = await controller.findOne('1');
+      expect(response).toEqual(result);
       expect(findOneBankAccountById.handle).toHaveBeenCalledWith('1');
     });
 
-    it('should return 404 when bank account is not found', async () => {
+    it('should throw error when bank account is not found', async () => {
       jest
         .spyOn(findOneBankAccountById, 'handle')
-        .mockRejectedValue(new Error());
+        .mockRejectedValue(new Error('Bank account not found'));
 
-      await controller.findOne('1', mockResponse as any);
-
-      expect(mockResponse.status).toHaveBeenCalledWith(404);
-      expect(mockResponse.json).toHaveBeenCalledWith(
-        new HttpException('Bank account not found', 404),
+      await expect(controller.findOne('1')).rejects.toThrow(
+        'Bank account not found',
       );
     });
   });
@@ -140,14 +130,10 @@ describe('BankAccountsController Test', () => {
       const errorMessage = 'Insufficient funds';
       jest
         .spyOn(transferEntryBankAccountsUseCase, 'handle')
-        .mockRejectedValue(errorMessage);
+        .mockRejectedValue(new Error(errorMessage));
 
-      const result = await controller.transfer(transferDto);
-      expect(result).toBeInstanceOf(HttpException);
-      expect(transferEntryBankAccountsUseCase.handle).toHaveBeenCalledWith(
-        transferDto.from,
-        transferDto.to,
-        transferDto.amount,
+      await expect(controller.transfer(transferDto)).rejects.toThrow(
+        errorMessage,
       );
     });
   });

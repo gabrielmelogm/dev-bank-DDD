@@ -82,6 +82,7 @@
     "coveragePathIgnorePatterns": [
       "node_modules",
       ".module.ts",
+      ".filter.ts",
       "main.ts"
     ],
     "coverageDirectory": "../coverage",

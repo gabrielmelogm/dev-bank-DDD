@@ -11,7 +11,7 @@ import { HealthCheckController } from './health-check.controller';
       type: 'sqlite',
       database: __dirname + '/db.sqlite',
       synchronize: true,
-      logging: true,
+      logging: false,
       entities: [BankAccountSchema, UserSchema],
     }),
     BankAccountsModule,
