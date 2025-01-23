@@ -47,4 +47,12 @@ describe('FindOneBankAccountById Test', () => {
     expect(createdBankAccount).toBeInstanceOf(BankAccount);
     expect(createdBankAccount.id).toBe('123');
   });
+
+  it('should throw error when bank account is not found', async () => {
+    const nonExistentId = '123';
+
+    await expect(findOneBankAccountById.handle(nonExistentId)).rejects.toThrow(
+      'Bank account not found',
+    );
+  });
 });

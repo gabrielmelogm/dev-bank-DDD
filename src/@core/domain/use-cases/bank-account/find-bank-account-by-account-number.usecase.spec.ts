@@ -46,4 +46,12 @@ describe('FindBankAccountByAccountNumberUseCase Test', () => {
 
     expect(createdBankAccount).toBeInstanceOf(BankAccount);
   });
+
+  it('should throw error when bank account is not found', async () => {
+    const nonExistentAccountNumber = '9999-99';
+
+    await expect(
+      findBankAccountByAccountNumberUseCase.handle(nonExistentAccountNumber),
+    ).rejects.toThrow('Bank account not found');
+  });
 });

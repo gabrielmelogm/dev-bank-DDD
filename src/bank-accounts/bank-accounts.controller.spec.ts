@@ -79,6 +79,11 @@ describe('BankAccountsController Test', () => {
   });
 
   describe('findOne', () => {
+    const mockResponse = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn().mockReturnThis(),
+    };
+
     it('should return a single bank account', async () => {
       const result = {
         id: '1',
@@ -90,8 +95,24 @@ describe('BankAccountsController Test', () => {
       };
       jest.spyOn(findOneBankAccountById, 'handle').mockResolvedValue(result);
 
-      expect(await controller.findOne('1')).toBe(result);
+      await controller.findOne('1', mockResponse as any);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(200);
+      expect(mockResponse.json).toHaveBeenCalledWith(result);
       expect(findOneBankAccountById.handle).toHaveBeenCalledWith('1');
+    });
+
+    it('should return 404 when bank account is not found', async () => {
+      jest
+        .spyOn(findOneBankAccountById, 'handle')
+        .mockRejectedValue(new Error());
+
+      await controller.findOne('1', mockResponse as any);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(404);
+      expect(mockResponse.json).toHaveBeenCalledWith(
+        new HttpException('Bank account not found', 404),
+      );
     });
   });
 
