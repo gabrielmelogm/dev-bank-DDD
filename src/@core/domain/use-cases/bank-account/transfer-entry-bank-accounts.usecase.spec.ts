@@ -6,11 +6,13 @@ import { UpdateBalanceBankAccountUseCase } from './update-balance-bank-account.u
 import { TransferAmountEntryAccountsUseCase } from '../transfer/transfer-amount-entry-accounts.usecase';
 import { UserSchema } from 'src/@core/infra/db/schemas/user.schema';
 import { BankAccount } from '../../entities/bank-account';
+import { TransferEntryBankAccountsUseCase } from './transfer-entry-bank-accounts.usecase';
 
 describe('TransferEntryBankAccountsUseCase Test', () => {
   let dataSource: DataSource;
   let ormRepo: Repository<BankAccountSchema>;
   let repository: BankAccountTypeOrmRepository;
+  let transferEntryBankAccountsUseCase: TransferEntryBankAccountsUseCase;
   let transferAmountEntryAccountsUseCase: TransferAmountEntryAccountsUseCase;
   let findBankAccountByAccountNumberUseCase: FindBankAccountByAccountNumberUseCase;
   let updateBalanceBankAccountUseCase: UpdateBalanceBankAccountUseCase;
@@ -29,13 +31,19 @@ describe('TransferEntryBankAccountsUseCase Test', () => {
 
     transferAmountEntryAccountsUseCase =
       new TransferAmountEntryAccountsUseCase();
-
+      
     findBankAccountByAccountNumberUseCase =
       new FindBankAccountByAccountNumberUseCase(repository);
-
+      
     updateBalanceBankAccountUseCase = new UpdateBalanceBankAccountUseCase(
       repository,
       findBankAccountByAccountNumberUseCase,
+    );
+      
+    transferEntryBankAccountsUseCase = new TransferEntryBankAccountsUseCase(
+      transferAmountEntryAccountsUseCase,
+      findBankAccountByAccountNumberUseCase,
+      updateBalanceBankAccountUseCase,
     );
   });
 
@@ -47,22 +55,22 @@ describe('TransferEntryBankAccountsUseCase Test', () => {
 
     const bankAccountDest = new BankAccount({
       balance: 150,
-      account_number: '1111-11',
+      account_number: '2222-22',
     });
 
     await repository.insert(bankAccountSrc);
     await repository.insert(bankAccountDest);
 
-    transferAmountEntryAccountsUseCase.handle(
-      bankAccountSrc,
-      bankAccountDest,
+    await transferEntryBankAccountsUseCase.handle(
+      bankAccountSrc.account_number,
+      bankAccountDest.account_number,
       50,
     );
 
-    await updateBalanceBankAccountUseCase.handle(bankAccountSrc);
-    await updateBalanceBankAccountUseCase.handle(bankAccountDest);
+    const bankAccountSrcUpdated = await findBankAccountByAccountNumberUseCase.handle(bankAccountSrc.account_number);
+    const bankAccountDestUpdated = await findBankAccountByAccountNumberUseCase.handle(bankAccountDest.account_number);
 
-    expect(bankAccountSrc.balance).toBe(100);
-    expect(bankAccountDest.balance).toBe(200);
+    expect(bankAccountSrcUpdated.balance).toBe(100);
+    expect(bankAccountDestUpdated.balance).toBe(200);
   });
 });
