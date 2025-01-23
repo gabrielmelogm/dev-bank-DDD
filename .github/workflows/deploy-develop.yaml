@@ -1,16 +1,13 @@
-name: Run Unit Tests
+name: "[Develop] Deploy"  
 
 on:
   push:
     branches: 
-      - main
       - develop
 
   pull_request:
     branches:
-      - main
       - develop
-
 
 jobs:
   test:
