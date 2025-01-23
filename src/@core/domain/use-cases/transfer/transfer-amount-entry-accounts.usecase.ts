@@ -6,6 +6,10 @@ export class TransferAmountEntryAccountsUseCase {
     bankAccountDest: BankAccount,
     amount: number,
   ) {
+    if (amount <= 0) {
+      throw new Error('Amount must be greater than zero');
+    }
+
     bankAccountSrc.debit(amount);
     bankAccountDest.credit(amount);
   }
