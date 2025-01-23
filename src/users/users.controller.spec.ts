@@ -21,9 +21,10 @@ describe('UsersController', () => {
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
-    createUserWithBankAccountUseCase = module.get<CreateUserWithBankAccountUseCase>(
-      CreateUserWithBankAccountUseCase,
-    );
+    createUserWithBankAccountUseCase =
+      module.get<CreateUserWithBankAccountUseCase>(
+        CreateUserWithBankAccountUseCase,
+      );
   });
 
   it('should be defined', () => {
@@ -43,14 +44,18 @@ describe('UsersController', () => {
         name: 'John Doe',
         email: 'john@example.com',
       };
-      jest.spyOn(createUserWithBankAccountUseCase, 'handle').mockResolvedValue(expectedResult);
+      jest
+        .spyOn(createUserWithBankAccountUseCase, 'handle')
+        .mockResolvedValue(expectedResult);
 
       // Act
       const result = await controller.create(createUserDto);
 
       // Assert
       expect(result).toEqual(expectedResult);
-      expect(createUserWithBankAccountUseCase.handle).toHaveBeenCalledWith(createUserDto);
+      expect(createUserWithBankAccountUseCase.handle).toHaveBeenCalledWith(
+        createUserDto,
+      );
       expect(createUserWithBankAccountUseCase.handle).toHaveBeenCalledTimes(1);
     });
 
@@ -61,12 +66,16 @@ describe('UsersController', () => {
         email: 'john@example.com',
       };
       const error = new Error('Failed to create user');
-      jest.spyOn(createUserWithBankAccountUseCase, 'handle').mockRejectedValue(error);
+      jest
+        .spyOn(createUserWithBankAccountUseCase, 'handle')
+        .mockRejectedValue(error);
 
       // Act & Assert
       await expect(controller.create(createUserDto)).rejects.toThrow(error);
-      expect(createUserWithBankAccountUseCase.handle).toHaveBeenCalledWith(createUserDto);
+      expect(createUserWithBankAccountUseCase.handle).toHaveBeenCalledWith(
+        createUserDto,
+      );
       expect(createUserWithBankAccountUseCase.handle).toHaveBeenCalledTimes(1);
     });
   });
-}); 
+});

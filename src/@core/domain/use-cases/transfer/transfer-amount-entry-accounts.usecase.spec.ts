@@ -49,11 +49,13 @@ describe('TransferAmountEntryAccountsUseCase Test', () => {
       balance: 50,
     });
 
-    expect(() => transferAmountEntryAccountsUseCase.handle(
-      bankAccountSrc,
-      bankAccountDest,
-      amount,
-    )).toThrowError('Insufficient balance');
+    expect(() =>
+      transferAmountEntryAccountsUseCase.handle(
+        bankAccountSrc,
+        bankAccountDest,
+        amount,
+      ),
+    ).toThrowError('Insufficient balance');
   });
 
   it('should not be transfer an amount to other account if amount is negative or zero', () => {
@@ -63,7 +65,7 @@ describe('TransferAmountEntryAccountsUseCase Test', () => {
       id: '123',
       account_number: '1111-11',
       balance: 100,
-    }); 
+    });
 
     const bankAccountDest = new BankAccount({
       id: '321',
@@ -71,10 +73,12 @@ describe('TransferAmountEntryAccountsUseCase Test', () => {
       balance: 50,
     });
 
-    expect(() => transferAmountEntryAccountsUseCase.handle(
-      bankAccountSrc,
-      bankAccountDest,
-      amount,
-    )).toThrowError('Amount must be greater than zero');
+    expect(() =>
+      transferAmountEntryAccountsUseCase.handle(
+        bankAccountSrc,
+        bankAccountDest,
+        amount,
+      ),
+    ).toThrowError('Amount must be greater than zero');
   });
 });

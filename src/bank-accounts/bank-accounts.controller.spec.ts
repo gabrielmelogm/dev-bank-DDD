@@ -38,8 +38,13 @@ describe('BankAccountsController Test', () => {
 
     controller = module.get<BankAccountsController>(BankAccountsController);
     findAllBankAccounts = module.get<FindAllBankAccounts>(FindAllBankAccounts);
-    findOneBankAccountById = module.get<FindOneBankAccountById>(FindOneBankAccountById);
-    transferEntryBankAccountsUseCase = module.get<TransferEntryBankAccountsUseCase>(TransferEntryBankAccountsUseCase);
+    findOneBankAccountById = module.get<FindOneBankAccountById>(
+      FindOneBankAccountById,
+    );
+    transferEntryBankAccountsUseCase =
+      module.get<TransferEntryBankAccountsUseCase>(
+        TransferEntryBankAccountsUseCase,
+      );
   });
 
   it('should be defined', () => {
@@ -48,22 +53,24 @@ describe('BankAccountsController Test', () => {
 
   describe('findAll', () => {
     it('should return an array of bank accounts', async () => {
-      const result = [{
-        id: '1',
-        balance: 1000,
-        account_number: '1234',
-        debit: jest.fn(),
-        credit: jest.fn(),
-        addOwner: jest.fn()
-      },
-      {
-        id: '2',
-        balance: 2000,
-        account_number: '5678',
-        debit: jest.fn(),
-        credit: jest.fn(),
-        addOwner: jest.fn()
-      }];
+      const result = [
+        {
+          id: '1',
+          balance: 1000,
+          account_number: '1234',
+          debit: jest.fn(),
+          credit: jest.fn(),
+          addOwner: jest.fn(),
+        },
+        {
+          id: '2',
+          balance: 2000,
+          account_number: '5678',
+          debit: jest.fn(),
+          credit: jest.fn(),
+          addOwner: jest.fn(),
+        },
+      ];
       jest.spyOn(findAllBankAccounts, 'handle').mockResolvedValue(result);
 
       expect(await controller.findAll()).toBe(result);
@@ -79,7 +86,7 @@ describe('BankAccountsController Test', () => {
         account_number: '1234',
         debit: jest.fn(),
         credit: jest.fn(),
-        addOwner: jest.fn()
+        addOwner: jest.fn(),
       };
       jest.spyOn(findOneBankAccountById, 'handle').mockResolvedValue(result);
 
@@ -96,7 +103,9 @@ describe('BankAccountsController Test', () => {
     };
 
     it('should successfully transfer money between accounts', async () => {
-      jest.spyOn(transferEntryBankAccountsUseCase, 'handle').mockResolvedValue();
+      jest
+        .spyOn(transferEntryBankAccountsUseCase, 'handle')
+        .mockResolvedValue();
 
       await controller.transfer(transferDto);
       expect(transferEntryBankAccountsUseCase.handle).toHaveBeenCalledWith(
@@ -108,7 +117,9 @@ describe('BankAccountsController Test', () => {
 
     it('should handle transfer errors', async () => {
       const errorMessage = 'Insufficient funds';
-      jest.spyOn(transferEntryBankAccountsUseCase, 'handle').mockRejectedValue(errorMessage);
+      jest
+        .spyOn(transferEntryBankAccountsUseCase, 'handle')
+        .mockRejectedValue(errorMessage);
 
       const result = await controller.transfer(transferDto);
       expect(result).toBeInstanceOf(HttpException);

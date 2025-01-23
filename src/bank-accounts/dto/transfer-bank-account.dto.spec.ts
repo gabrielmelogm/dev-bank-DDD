@@ -1,5 +1,5 @@
-import { validate } from "class-validator";
-import { TransferBankAccountDto } from "./transfer-bank-account.dto";
+import { validate } from 'class-validator';
+import { TransferBankAccountDto } from './transfer-bank-account.dto';
 
 describe('TransferBankAccountDto Test', () => {
   let dto: TransferBankAccountDto;
@@ -38,7 +38,7 @@ describe('TransferBankAccountDto Test', () => {
     });
 
     it('should fail when from has invalid format', async () => {
-      dto.from = '123456';  // missing hyphen
+      dto.from = '123456'; // missing hyphen
       dto.to = '7890-12';
       dto.amount = 100;
 
@@ -80,7 +80,7 @@ describe('TransferBankAccountDto Test', () => {
 
     it('should fail when to has invalid format', async () => {
       dto.from = '1234-56';
-      dto.to = '789012';  // missing hyphen
+      dto.to = '789012'; // missing hyphen
       dto.amount = 100;
 
       const errors = await validate(dto);

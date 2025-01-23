@@ -31,15 +31,15 @@ describe('TransferEntryBankAccountsUseCase Test', () => {
 
     transferAmountEntryAccountsUseCase =
       new TransferAmountEntryAccountsUseCase();
-      
+
     findBankAccountByAccountNumberUseCase =
       new FindBankAccountByAccountNumberUseCase(repository);
-      
+
     updateBalanceBankAccountUseCase = new UpdateBalanceBankAccountUseCase(
       repository,
       findBankAccountByAccountNumberUseCase,
     );
-      
+
     transferEntryBankAccountsUseCase = new TransferEntryBankAccountsUseCase(
       transferAmountEntryAccountsUseCase,
       findBankAccountByAccountNumberUseCase,
@@ -67,8 +67,14 @@ describe('TransferEntryBankAccountsUseCase Test', () => {
       50,
     );
 
-    const bankAccountSrcUpdated = await findBankAccountByAccountNumberUseCase.handle(bankAccountSrc.account_number);
-    const bankAccountDestUpdated = await findBankAccountByAccountNumberUseCase.handle(bankAccountDest.account_number);
+    const bankAccountSrcUpdated =
+      await findBankAccountByAccountNumberUseCase.handle(
+        bankAccountSrc.account_number,
+      );
+    const bankAccountDestUpdated =
+      await findBankAccountByAccountNumberUseCase.handle(
+        bankAccountDest.account_number,
+      );
 
     expect(bankAccountSrcUpdated.balance).toBe(100);
     expect(bankAccountDestUpdated.balance).toBe(200);
